@@ -214,7 +214,7 @@ class _HomePageState extends State<HomePage> {
               size: 20,
             ),
             onPressed: () {
-              print('object');
+              productStore.setActiveProduct(productStore.activeProduct);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => AddToCart()),

@@ -106,6 +106,26 @@ class ProductStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  addAndRemove(Products p) {
+    Products found =
+        _basket.firstWhere((e) => e.id == p.id, orElse: () => null);
+    if (found != null) {
+      _basket.remove(p);
+    } else {
+      _basket.add(p);
+    }
+    notifyListeners();
+  }
+
+  removeItem(Products p) {
+    Products found =
+        _basket.firstWhere((e) => e.id == p.id, orElse: () => null);
+    if (found != null) {
+      _basket.remove(p);
+    }
+    notifyListeners();
+  }
+
   totalProduct() {
     int total = 0;
     for (int i = 0; i < _basket.length; i++) {

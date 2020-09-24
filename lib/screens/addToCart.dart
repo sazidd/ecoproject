@@ -1,194 +1,208 @@
 import 'package:ecommerce/constant/constants.dart';
+import 'package:ecommerce/models/productModel.dart';
 import 'package:ecommerce/screens/confirmPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class AddToCart extends StatelessWidget {
   static final String path = "lib/src/pages/ecommerce/cart2.dart";
   @override
   Widget build(BuildContext context) {
+    var productStore = Provider.of<ProductStore>(context);
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: IconButton(
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          icon: SvgPicture.asset(
+            "assets/icons/back.svg",
+            color: Colors.white,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: [
+          IconButton(
             icon: SvgPicture.asset(
-              "assets/icons/back.svg",
+              "assets/icons/search.svg",
               color: Colors.white,
             ),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {},
           ),
-          actions: [
-            IconButton(
-              icon: SvgPicture.asset(
-                "assets/icons/search.svg",
-                color: Colors.white,
-              ),
-              onPressed: () {},
+          IconButton(
+            icon: SvgPicture.asset(
+              "assets/icons/cart.svg",
+              color: Colors.white,
             ),
-            IconButton(
-              icon: SvgPicture.asset(
-                "assets/icons/cart.svg",
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            ),
-            SizedBox(
-              width: kDefaultPaddin / 2,
-            )
-          ],
-        ),
-        body: Column(
-          children: <Widget>[
-            Flexible(
-              child: ListView.builder(
-                itemCount: 6,
-                itemBuilder: (context, int index) {
-                  return cartItems(index);
-                },
-              ),
-            ),
-            _checkoutSection(context)
-          ],
-        ));
-  }
-
-  Widget cartItems(int index) {
-    return RoundedContainer(
-      padding: const EdgeInsets.all(0),
-      margin: EdgeInsets.all(10),
-      height: 130,
-      child: Row(
-        children: <Widget>[
-          Container(
-            width: 130,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/bag_1.png')
-              )
-                ),
+            onPressed: () {},
           ),
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Flexible(
-                        child: Text(
-                          "Item 1" + index.toString(),
-                          overflow: TextOverflow.fade,
-                          softWrap: true,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 15),
-                        ),
-                      ),
-                      Container(
-                        width: 50,
-                        child: IconButton(
-                          onPressed: () {
-                            print("Button Pressed");
-                          },
-                          color: Colors.red,
-                          icon: Icon(Icons.delete),
-                          iconSize: 20,
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text("Price: "),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        '\$200',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w300),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text("Sub Total: "),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text('\$400',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.orange,
-                          ))
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "Ships Free",
-                        style: TextStyle(color: Colors.orange),
-                      ),
-                      Spacer(),
-                      Row(
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {
-
-                            },
-                            splashColor: Colors.redAccent.shade200,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50)),
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Icon(
-                                  Icons.remove,
-                                  color: Colors.redAccent,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('2'),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            splashColor: Colors.lightBlue,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50)),
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Icon(
-                                  Icons.add,
-                                  color: Colors.green,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          SizedBox(
+            width: kDefaultPaddin / 2,
           )
+        ],
+      ),
+      body: Column(
+        children: <Widget>[
+          Flexible(
+            child: ListView.builder(
+              itemCount: productStore.basket.length,
+              itemBuilder: (context, index) {
+                return RoundedContainer(
+                  padding: const EdgeInsets.all(0),
+                  margin: EdgeInsets.all(10),
+                  height: 130,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 130,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              productStore.basket[index].productImage,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Flexible(
+                                    child: Text(
+                                      "Item 1" + index.toString(),
+                                      overflow: TextOverflow.fade,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 50,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        productStore.removeItem(
+                                            productStore.basket[index]);
+                                      },
+                                      color: Colors.red,
+                                      icon: Icon(Icons.delete),
+                                      iconSize: 20,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text("Price: "),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '\$${productStore.basket[index].productPrice}',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w300),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text("Sub Total: "),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text('\$400',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.orange,
+                                      ))
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    "Ships Free",
+                                    style: TextStyle(color: Colors.orange),
+                                  ),
+                                  Spacer(),
+                                  Row(
+                                    children: <Widget>[
+                                      InkWell(
+                                        onTap: () {
+                                          productStore.removeOneItemToBasket(
+                                              productStore.basket[index]);
+                                        },
+                                        splashColor: Colors.redAccent.shade200,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          alignment: Alignment.center,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(6.0),
+                                            child: Icon(
+                                              Icons.remove,
+                                              color: Colors.redAccent,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Card(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            productStore.basket[index].qty
+                                                .toString(),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          productStore.addOneItemToBasket(
+                                              productStore.basket[index]);
+                                        },
+                                        splashColor: Colors.lightBlue,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          alignment: Alignment.center,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(6.0),
+                                            child: Icon(
+                                              Icons.add,
+                                              color: Colors.green,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          _checkoutSection(context)
         ],
       ),
     );
@@ -251,7 +265,6 @@ class AddToCart extends StatelessWidget {
   }
 }
 
-
 class RoundedContainer extends StatelessWidget {
   const RoundedContainer({
     Key key,
@@ -293,4 +306,5 @@ class RoundedContainer extends StatelessWidget {
         child: child,
       ),
     );
-  }}
+  }
+}

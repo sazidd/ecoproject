@@ -1,4 +1,5 @@
 import 'package:ecommerce/models/productModel.dart';
+import 'package:ecommerce/screens/addToCart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -27,11 +28,19 @@ class DetailsScreen extends StatelessWidget {
             alignment: Alignment.topRight,
             children: <Widget>[
               new IconButton(
-                  icon: SvgPicture.asset(
-                    "assets/icons/cart.svg",
-                    color: Colors.white,
-                  ),
-                  onPressed: () {}),
+                icon: SvgPicture.asset(
+                  "assets/icons/cart.svg",
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => AddToCart(),
+                    ),
+                  );
+                },
+              ),
               new CircleAvatar(
                 radius: 8.0,
                 backgroundColor: Colors.red,
@@ -111,90 +120,54 @@ class DetailsScreen extends StatelessWidget {
               ),
             ],
           ),
+
+          // Padding(
+          //   padding: const EdgeInsets.all(20.0),
+          //   child: Container(
+          //     decoration:
+          //         BoxDecoration(border: Border.all(color: Colors.green)),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: [
+          //         IconButton(
+          //           icon: Icon(
+          //             Icons.add,
+          //             color: Colors.red,
+          //           ),
+          //           onPressed: () {
+          //             productStore
+          //                 .addOneItemToBasket(productStore.activeProduct);
+          //           },
+          //         ),
+          //         Container(
+          //           width: 20,
+          //           decoration: BoxDecoration(
+          //             border: Border.all(
+          //               color: Colors.grey,
+          //             ),
+          //           ),
+          //           child: Center(
+          //             child: Text(
+          //               productStore.activeProduct.qty.toString(),
+          //             ),
+          //           ),
+          //         ),
+          //         IconButton(
+          //           icon: Icon(
+          //             Icons.remove,
+          //             color: Colors.green,
+          //           ),
+          //           onPressed: () {
+          //             productStore
+          //                 .removeOneItemToBasket(productStore.activeProduct);
+          //           },
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           SizedBox(
-            height: 100,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-              decoration:
-                  BoxDecoration(border: Border.all(color: Colors.green)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.add,
-                      color: Colors.red,
-                    ),
-                    onPressed: () {
-                      productStore
-                          .addOneItemToBasket(productStore.activeProduct);
-                    },
-                  ),
-                  Container(
-                    width: 20,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        productStore.activeProduct.qty.toString(),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.remove,
-                      color: Colors.green,
-                    ),
-                    onPressed: () {
-                      productStore
-                          .removeOneItemToBasket(productStore.activeProduct);
-                    },
-                  ),
-                ],
-              ),
-              // child: Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     IconButton(
-              //         icon: Icon(
-              //           Icons.add,
-              //           color: Colors.red,
-              //         ),
-              //         onPressed: () {
-              //           productStore
-              //               .addOneItemToBasket(productStore.activeProduct);
-              //         }),
-              //     Container(
-              //       width: 18,
-              //       decoration: BoxDecoration(
-              //         border: Border.all(),
-              //       ),
-              //       child: Text(
-              //         productStore.activeProduct.qty.toString(),
-              //         textAlign: TextAlign.center,
-              //       ),
-              //     ),
-              //     IconButton(
-              //       icon: Icon(
-              //         Icons.remove,
-              //         color: Colors.green,
-              //       ),
-              //       onPressed: () {
-              //         productStore
-              //             .removeOneItemToBasket(productStore.activeProduct);
-              //       },
-              //     ),
-              //   ],
-              // ),
-            ),
-          ),
-          SizedBox(
-            height: 100,
+            height: 290,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -213,7 +186,7 @@ class DetailsScreen extends StatelessWidget {
                   ),
                   child: FlatButton(
                     onPressed: () {
-                      productStore.totalProduct();
+                      productStore.addAndRemove(productStore.activeProduct);
                     },
                     child: Text(
                       "Add to Cart",
