@@ -19,9 +19,12 @@ class ItemCard extends StatelessWidget {
           Container(
             height: 140,
             width: double.infinity,
-            child: Image.asset(
-              product.productImage,
-              fit: BoxFit.cover,
+            child: Hero(
+              tag: product.id,
+                          child: Image.asset(
+                product.productImage,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Row(

@@ -65,9 +65,12 @@ class DetailsScreen extends StatelessWidget {
             child: Container(
               height: 250,
               width: 250,
-              child: Image.asset(
-                productStore.activeProduct.productImage,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: productStore.activeProduct.id,
+                child: Image.asset(
+                  productStore.activeProduct.productImage,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

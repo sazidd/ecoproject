@@ -7,6 +7,8 @@ class Products {
   final String productImage;
   final double disCountProductPrice;
   final double productPrice;
+  int subTotal;
+  final int deliveryFee;
   int qty;
   final int percentageDiscount;
 
@@ -17,6 +19,8 @@ class Products {
     this.productImage,
     this.disCountProductPrice,
     this.productPrice,
+    this.subTotal,
+    this.deliveryFee,
     this.qty,
     this.percentageDiscount,
   });
@@ -38,6 +42,8 @@ class ProductStore extends ChangeNotifier {
         productImage: "assets/images/cloth.jpg",
         disCountProductPrice: 135,
         productPrice: 300,
+        subTotal: 350,
+        deliveryFee: 100,
         qty: 1,
         percentageDiscount: -49,
       ),
@@ -48,6 +54,8 @@ class ProductStore extends ChangeNotifier {
         productImage: "assets/images/cloth.jpg",
         disCountProductPrice: 135,
         productPrice: 300,
+        subTotal: 400,
+        deliveryFee: 100,
         qty: 1,
         percentageDiscount: -49,
       ),
@@ -58,6 +66,8 @@ class ProductStore extends ChangeNotifier {
         productImage: "assets/images/cloth.jpg",
         disCountProductPrice: 135,
         productPrice: 300,
+        subTotal: 450,
+        deliveryFee: 100,
         qty: 1,
         percentageDiscount: -49,
       ),
@@ -68,6 +78,8 @@ class ProductStore extends ChangeNotifier {
         productImage: "assets/images/cloth.jpg",
         disCountProductPrice: 135,
         productPrice: 300,
+        subTotal: 500,
+        deliveryFee: 100,
         qty: 1,
         percentageDiscount: -49,
       ),
@@ -132,6 +144,14 @@ class ProductStore extends ChangeNotifier {
       total += _basket[i].qty;
     }
     return total;
+  }
+
+  totalPrice() {
+    double totalAmount = 0;
+    for (int i = 0; i < _basket.length; i++) {
+      totalAmount = totalAmount + (_basket[i].subTotal * _basket[i].qty);
+    }
+    return totalAmount;
   }
 }
 
