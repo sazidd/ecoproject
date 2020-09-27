@@ -1,4 +1,6 @@
+import 'package:ecommerce/screens/confirmPage.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginSevenPage extends StatefulWidget {
   static final String path = "lib/src/pages/login/login7.dart";
@@ -7,159 +9,215 @@ class LoginSevenPage extends StatefulWidget {
 }
 
 class _LoginSevenPageState extends State<LoginSevenPage> {
+  TextEditingController _email = TextEditingController();
+  TextEditingController _pass = TextEditingController();
+  bool _isLoading = false;
+
+  void _logIn() async {
+    if (_email.text.isNotEmpty && _pass.text.isNotEmpty) {
+      setState(() {
+        _isLoading = true;
+      });
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool('isUser', true);
+      Future.delayed(Duration(seconds: 1), () {
+        if (_email.text == 'user@gmail.com' && _pass.text == '222222') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => ConfirmOrderPage(),
+            ),
+          );
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView(
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
-              ClipPath(
-                clipper: WaveClipper2(),
-                child: Container(
-                  child: Column(),
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(0x22ff3a5a), Color(0x22fe494d)])),
+      body: _isLoading
+          ? Center(
+              child: Text("Please Wait..."),
+            )
+          : ListView(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    ClipPath(
+                      clipper: WaveClipper2(),
+                      child: Container(
+                        child: Column(),
+                        width: double.infinity,
+                        height: 300,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                          Color(0x22ff3a5a),
+                          Color(0x22fe494d)
+                        ])),
+                      ),
+                    ),
+                    ClipPath(
+                      clipper: WaveClipper3(),
+                      child: Container(
+                        child: Column(),
+                        width: double.infinity,
+                        height: 300,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                          Color(0x44ff3a5a),
+                          Color(0x44fe494d)
+                        ])),
+                      ),
+                    ),
+                    ClipPath(
+                      clipper: WaveClipper1(),
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Icon(
+                              Icons.shopping_cart,
+                              color: Colors.white,
+                              size: 60,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Taste Me",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 30),
+                            ),
+                          ],
+                        ),
+                        width: double.infinity,
+                        height: 300,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                          Color(0xffff3a5a),
+                          Color(0xfffe494d)
+                        ])),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              ClipPath(
-                clipper: WaveClipper3(),
-                child: Container(
-                  child: Column(),
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(0x44ff3a5a), Color(0x44fe494d)])),
+                SizedBox(
+                  height: 30,
                 ),
-              ),
-              ClipPath(
-                clipper: WaveClipper1(),
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Icon(
-                        Icons.shopping_cart,
-                        color: Colors.white,
-                        size: 60,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Taste Me",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30),
-                      ),
-                    ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 32),
+                  child: Material(
+                    elevation: 2.0,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    child: TextField(
+                      controller: _email,
+                      onChanged: (String value) {},
+                      cursorColor: Colors.deepOrange,
+                      decoration: InputDecoration(
+                          hintText: "Email",
+                          prefixIcon: Material(
+                            elevation: 0,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: Icon(
+                              Icons.email,
+                              color: Colors.red,
+                            ),
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 13)),
+                    ),
                   ),
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(0xffff3a5a), Color(0xfffe494d)])),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            child: Material(
-              elevation: 2.0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: TextField(
-                onChanged: (String value){},
-                cursorColor: Colors.deepOrange,
-                decoration: InputDecoration(
-                    hintText: "Email",
-                    prefixIcon: Material(
-                      elevation: 0,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: Icon(
-                        Icons.email,
-                        color: Colors.red,
-                      ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 32),
+                  child: Material(
+                    elevation: 2.0,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    child: TextField(
+                      controller: _pass,
+                      onChanged: (String value) {},
+                      cursorColor: Colors.deepOrange,
+                      decoration: InputDecoration(
+                          hintText: "Password",
+                          prefixIcon: Material(
+                            elevation: 0,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: Icon(
+                              Icons.lock,
+                              color: Colors.red,
+                            ),
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 13)),
                     ),
-                    border: InputBorder.none,
-                    contentPadding:
-                    EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            child: Material(
-              elevation: 2.0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: TextField(
-                onChanged: (String value){},
-                cursorColor: Colors.deepOrange,
-                decoration: InputDecoration(
-                    hintText: "Password",
-                    prefixIcon: Material(
-                      elevation: 0,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      child: Icon(
-                        Icons.lock,
-                        color: Colors.red,
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                          color: Color(0xffff3a5a)),
+                      child: FlatButton(
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18),
+                        ),
+                        onPressed: _logIn,
                       ),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding:
-                    EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    color: Color(0xffff3a5a)),
-                child: FlatButton(
+                    )),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
                   child: Text(
-                    "Login",
+                    "FORGOT PASSWORD ?",
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18),
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700),
                   ),
-                  onPressed: () {},
                 ),
-              )),
-          SizedBox(height: 20,),
-          Center(
-            child: Text("FORGOT PASSWORD ?", style: TextStyle(color:Colors.red,fontSize: 12 ,fontWeight: FontWeight.w700),),
-          ),
-          SizedBox(height: 40,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("Don't have an Account ? ", style: TextStyle(color:Colors.black,fontSize: 12 ,fontWeight: FontWeight.normal),),
-              Text("Sign Up ", style: TextStyle(color:Colors.red, fontWeight: FontWeight.w500,fontSize: 12, decoration: TextDecoration.underline )),
-
-            ],
-          )
-        ],
-      ),
+                SizedBox(
+                  height: 40,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Don't have an Account ? ",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    Text("Sign Up ",
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            decoration: TextDecoration.underline)),
+                  ],
+                )
+              ],
+            ),
     );
   }
 }

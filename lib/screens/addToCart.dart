@@ -1,13 +1,39 @@
 import 'package:ecommerce/constant/constants.dart';
 import 'package:ecommerce/models/productModel.dart';
 import 'package:ecommerce/screens/confirmPage.dart';
+import 'package:ecommerce/screens/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AddToCart extends StatelessWidget {
+class AddToCart extends StatefulWidget {
   static final String path = "lib/src/pages/ecommerce/cart2.dart";
+
+  @override
+  _AddToCartState createState() => _AddToCartState();
+}
+
+class _AddToCartState extends State<AddToCart> {
+  bool isUser = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initCheck();
+  }
+
+  void _initCheck() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getBool('isUser') != null) {
+      setState(() {
+        isUser = prefs.getBool('isUser');
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var productStore = Provider.of<ProductStore>(context);
@@ -248,8 +274,14 @@ class AddToCart extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ConfirmOrderPage()),
+                            builder: (BuildContext context) => isUser ? ConfirmOrderPage() : LoginSevenPage(),
+                          ),
                         );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => ConfirmOrderPage()),
+                        // );
                       },
                       child: Container(
                         width: double.infinity,
@@ -275,62 +307,6 @@ class AddToCart extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _checkoutSection(BuildContext context) {
-  //   return Material(
-  //     color: Colors.black12,
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: <Widget>[
-  //         Padding(
-  //             padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-  //             child: Row(
-  //               children: <Widget>[
-  //                 Text(
-  //                   "Checkout Price:",
-  //                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-  //                 ),
-  //                 Spacer(),
-  //                 Text(
-  //                   "Rs. 5000",
-  //                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-  //                 )
-  //               ],
-  //             )),
-  //         Padding(
-  //           padding: const EdgeInsets.all(10.0),
-  //           child: Material(
-  //             color: Colors.red,
-  //             elevation: 1.0,
-  //             child: InkWell(
-  //               splashColor: Colors.redAccent,
-  //               onTap: () {
-  //                 Navigator.push(
-  //                   context,
-  //                   MaterialPageRoute(builder: (context) => ConfirmOrderPage()),
-  //                 );
-  //               },
-  //               child: Container(
-  //                 width: double.infinity,
-  //                 child: Padding(
-  //                   padding: const EdgeInsets.all(10.0),
-  //                   child: Text(
-  //                     "Checkout",
-  //                     textAlign: TextAlign.center,
-  //                     style: TextStyle(
-  //                         color: Colors.white,
-  //                         fontSize: 18,
-  //                         fontWeight: FontWeight.w700),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }
 
 class RoundedContainer extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:ecommerce/main.dart';
 import 'package:ecommerce/models/functionModel.dart';
 import 'package:ecommerce/models/productCategoryModel.dart';
 import 'package:ecommerce/models/productModel.dart';
@@ -12,6 +13,7 @@ import 'package:ecommerce/widgets/productCategoryCard.dart';
 import 'package:ecommerce/widgets/sliders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../confiq.dart';
 
@@ -21,6 +23,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  void _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('isUser');
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=> MyApp(),),);
+  }
+
   @override
   Widget build(BuildContext context) {
     var productCategoryStore = Provider.of<ProductCategoryStore>(context);
@@ -39,9 +48,9 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.message),
+            icon: const Icon(Icons.exit_to_app),
             tooltip: 'Add new entry',
-            onPressed: () {/* ... */},
+            onPressed: _logout,
           ),
         ],
         bottom: PreferredSize(
