@@ -34,7 +34,7 @@ dependencies:
   flutter_custom_clippers: ^1.1.1
   curved_navigation_bar: ^0.3.3
   font_awesome_flutter:
-  carousel_slider: ^2.2.1
+  carousel_slider: ^2.3.1
   provider: ^4.3.2+2
   shared_preferences: ^0.5.12
 
@@ -74,6 +74,9 @@ flutter:
      - assets/icons/gitfcard.png
      - assets/icons/newsfeed.png
      - assets/icons/orders.jpg
+     - assets/icons/creditCard.png
+     - assets/icons/google.png
+     - assets/icons/paypal.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

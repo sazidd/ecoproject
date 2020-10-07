@@ -23,11 +23,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   void _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('isUser');
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=> MyApp(),),);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => MyApp(),
+      ),
+    );
   }
 
   @override
@@ -73,8 +77,8 @@ class _HomePageState extends State<HomePage> {
         slivers: <Widget>[
           SliverToBoxAdapter(
               child: Container(
-            height: 200,
-            child: ImageSliderDemo(),
+            height: 250,
+            child: ImageSlider(),
           )),
           SliverToBoxAdapter(
             child: SizedBox(
